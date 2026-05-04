@@ -31,7 +31,7 @@ export const PredictionEngine: FC<PredictionEngineProps> = ({ onActivateGraphics
       {/* Header */}
       <div className="bg-slate-50 px-5 py-4 flex items-center justify-between border-b border-slate-200">
         <div className="flex items-center space-x-3">
-          <img src="/logo.png" alt="Crickvay Intelligence" className="h-6 w-auto object-contain" />
+          <img src="/logo.png" alt="Crickvay Intelligence" className="h-9 w-auto object-contain" />
         </div>
         <div className="flex items-center space-x-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
