@@ -1,17 +1,25 @@
 import { NextResponse } from 'next/server';
-import neo4j from 'neo4j-driver';
+import neo4j, { type Driver } from 'neo4j-driver';
 
-const URI = process.env.NEO4J_URI || '';
-const USER = process.env.NEO4J_USERNAME || '';
-const PASSWORD = process.env.NEO4J_PASSWORD || '';
+const URI = process.env.NEO4J_URI;
+const USER = process.env.NEO4J_USERNAME;
+const PASSWORD = process.env.NEO4J_PASSWORD;
 
-const driver = neo4j.driver(URI, neo4j.auth.basic(USER, PASSWORD));
+let driver: Driver | null = null;
+function getDriver() {
+  if (driver) return driver;
+  if (!URI || !USER || !PASSWORD) {
+    throw new Error('Missing Neo4j environment variables. Set NEO4J_URI, NEO4J_USERNAME, and NEO4J_PASSWORD in Vercel.');
+  }
+  driver = neo4j.driver(URI, neo4j.auth.basic(USER, PASSWORD));
+  return driver;
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const player = searchParams.get('player');
 
-  const session = driver.session();
+  const session = getDriver().session();
   try {
     let cypher = '';
     let params = {};
